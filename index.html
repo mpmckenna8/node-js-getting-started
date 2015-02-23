@@ -17,7 +17,7 @@
         </style>
     <body>
 
-        <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 
 
@@ -25,32 +25,32 @@
 
             /* JavaScript goes here. */
   //choose dimensions of my svg thing
-      var width = 960,
-      height = 600;
+var width = 960,
+    height = 600;
 var color = d3.scale.category10();
-    color.range(color.range().slice(0,8));
+  color.range(color.range().slice(0,8));
 
 //Choosing mercator because that's what I made the data in and also scale and center setting
-      var projection = d3.geo.mercator()
+var projection = d3.geo.mercator()
         .scale(2000)
         .translate([width / 2, height / 2])
-        .center([-120,36])
-      ;
+        .center([-120,36]);
 
 // So now when I call path on jam it will use this projection and stuff
-      var path = d3.geo.path()
+var path = d3.geo.path()
         .projection(projection);
 
 // Appending the actual SVG to the body of the page w/ height width
-      var svg = d3.select("body").append("svg")
+  var svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height);
 
 
 
-      d3.json("/calAss1.json", function(cali) {
-        var neighbors = topojson.neighbors(cali.objects.assemD2011.geometries);
-        var districts = topojson.feature(cali, cali.objects.assemD2011).features;
+d3.json("/calAss1.json", function(cali) {
+    var neighbors = topojson.neighbors(cali.objects.assemD2011.geometries);
+    var districts = topojson.feature(cali, cali.objects.assemD2011).features;
+    console.log(neighbors);
 
         svg.selectAll(".casubun")
         .data(districts)
@@ -58,29 +58,32 @@ var color = d3.scale.category10();
         .attr("class", function(d) { return "casubun"; })
         .attr("d", path)
         .style("fill",function(d,i){
+          //console.log(d)
+
+          return "green";
+      /*
           return color(d.color=d3.max(neighbors[i],function(n){
             return districts[n].color;
-          })
-        + 1 | 0
-      );
-        })
-        ;
+          }) + 1 | 0
+
+        );
+    */
+        });
 
       svg.append("path")
         .datum(topojson.mesh(cali,cali.objects.assemD2011, function(a,b){
-
           return a;
+
         }))
         .attr("d",path)
         .attr("class", "bords");
 
-              });
+});
 
 
       d3.select("body")
        .transition()
        .style("background-color", "black");
-
 
 
             </script>
