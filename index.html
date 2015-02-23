@@ -13,6 +13,19 @@
           stroke:white;
         }
 
+        .bigtitle{
+          margin-right:auto;
+          margin-left:auto;
+          vertical-align:middle;
+          text-align:center;
+        }
+
+        svg{
+          margin-right:auto;
+          margin-left:auto;
+          //vertical-align:middle;
+        }
+
 
         </style>
     <body>
@@ -39,6 +52,17 @@ var projection = d3.geo.mercator()
 // So now when I call path on jam it will use this projection and stuff
 var path = d3.geo.path()
         .projection(projection);
+
+        d3.select("body").append("h2")
+        .text('California State Assembly Districts')
+        .style('color', 'grey')
+        .attr('class', 'bigtitle');
+
+
+        d3.select("body").append("h4")
+        .html('Total number of Democrats: 52 </br> Total number of Republicans: 28')
+        .style('color', 'white')
+        .attr('class', 'bigtitle');
 
 // Appending the actual SVG to the body of the page w/ height width
   var svg = d3.select("body").append("svg")
@@ -78,12 +102,50 @@ d3.json("/calAss1.json", function(cali) {
         .attr("d",path)
         .attr("class", "bords");
 
+        d3.json('/db', function(datur){
+          //console.log(d)
+          var dable = datur;
+
+          var distos = d3.selectAll(".casubun")
+            .style('fill', function(d, i){
+              var tofi = 'orange';
+              var dnum = +d.properties.DISTRICT;
+              console.log(d)
+              datur.forEach(function(w, e){
+                console.log(w)
+                if(w.district == dnum ){
+                  console.log('a match!');
+                  if(w.party === "Republican"){
+                   return  tofi = 'red'
+                  }
+
+                  tofi = 'blue';
+                }
+                else{
+                  //tofi = 'red';
+                }
+
+              })
+              return tofi;
+
+
+
+            });
+          console.log(distos[0])
+
+
+
+
+        })
+
 });
 
 
       d3.select("body")
        .transition()
        .style("background-color", "black");
+
+
 
 
             </script>

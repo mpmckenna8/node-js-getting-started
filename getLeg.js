@@ -20,7 +20,8 @@ var baseurl = "http://openstates.org/api/v1/legislators/?";
 var toqs = {
   apikey: key,
   state: strstate,
-  active: active
+  active: active,
+  chamber: house
 }
 
 module.exports = function(){
@@ -59,21 +60,45 @@ function todb(){
 //  console.log(conString);
   var fojson = JSON.parse(conString)
 
-  fojson.forEach(function(d){
-    console.log("this is " + d);
+  var lenfoj = fojson.length;
+
+  var fullnames = [];
+
+  console.log('the length is ' + lenfoj);
+
+
+  fojson.forEach(function(d,i){
+    console.log(i);
+
+
+
+    if(fullnames.indexOf(d.district)>=0){
+
+      console.log('doble alert', d.full_name, fullnames.indexOf(d.full_name) );
+      fojson.splice(i,1);
+
+    }
+    else{
+      fullnames.push(d.district);
+
+    }
+
+    //console.log("this is " + d);
     if(d.full_name.indexOf("\'")>= 0){
       d.full_name = d.full_name.replace("\'", "\'\'");
       console.log("found a baddy")
       console.log(d);
 
      }
+
+
   });
 
-  console.log(fojson.length);
+  console.log('ending length is', fojson.length);
 
-  return fojson;
-
-  // addtodb(fojson);
+  //return fojson;
+  // To add the object to the database uncomment next line:
+    addtodb(fojson);
 
 
 

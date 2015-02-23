@@ -10,6 +10,7 @@ var  getleg =  require("./dbgetleg.js");
 
 console.log("legolio")
 
+//legis();
 //  var legobj = getleg(cber);
 
 function cber (err, res){
@@ -38,7 +39,7 @@ app.get('/db', function (request, response) {
 
   function servit(err,res){
     if (err){
-      console.error(err); response.send("Error " + err); 
+      console.error(err); response.send("Error " + err);
       throw err
     }
     console.log(res);
