@@ -10,7 +10,7 @@ var  getleg =  require("./dbgetleg.js");
 
 console.log("legolio")
 
-//legis();
+legis();
 //  var legobj = getleg(cber);
 
 function cber (err, res){
