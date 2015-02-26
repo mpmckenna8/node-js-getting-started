@@ -2,15 +2,16 @@ var express = require('express');
 var app = express();
 var cool = require("cool-ascii-faces");
 var pg = require("pg");
+var url = require('url');
 
 var legis = require('./getLeg.js');
 
-var  getleg =  require("./dbgetleg.js");
+var dbgetleg =  require("./dbgetleg.js");
 
 
 console.log("legolio")
-
-legis();
+// uncomment for initial query and fill of database
+// this needs values now legis();
 //  var legobj = getleg(cber);
 
 function cber (err, res){
@@ -23,49 +24,72 @@ function cber (err, res){
 app.set('port', (process.env.PORT || 5000));
 
 // app.set('views')
-app.use(express.static(__dirname + '/public'));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+}
+  //express.static(__dirname + '/public')
+  );
 
-app.get('/', function(request, response) {
-  response.sendFile(__dirname+"/index.html");
-  console.log(process.env);
-});
 
 
 
-app.get('/db', function (request, response) {
-  console.log(request);
 
-  getleg(servit);
+
+var howie = 'lower';
+
+app.get('/db*', function (request, response) {
+
+  console.log('and the request is')
+    var requ = url.parse(request.url);
+
+    console.log(requ.query)
+
+    dbgetleg(servit, requ.query);
 
   function servit(err,res){
-    if (err){
-      console.error(err); response.send("Error " + err);
-      throw err
-    }
-    console.log(res);
-    response.send(res.rows);
-  }
-  /*
 
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM test_table', function(err, result) {
-      done();
-      if (err)
-      { console.error(err); response.send("Error " + err); }
-      else
-      {
-        //response.send(result.rows);
-      }
-    });
-  });
-*/
+    if (err){
+      console.log('error before serve db');
+
+      console.log(err);
+
+        if(res.length <1) {
+          response.send('som error here nothin');
+
+          console.log('no response')
+          //throw err;
+          }
+
+          else{
+            response.send(res)
+
+          }
+    }
+  //  console.log(res);
+  else{
+     response.send(res);
+   }
+  }
+
 })
 
+app.get('/states.json', function(req,res){
+  res.sendFile(__dirname + '/states.json')
+})
 
 app.get('/calAss1.json', function(req, res){
   res.sendFile(__dirname + "/calAss1.json");
 })
 
+app.get('/map.html', function(req, res){
+  res.sendFile(__dirname + "/index.html");
+})
+
+app.get('/*', function(req, res){
+  res.sendFile(__dirname +"/dist/" + req.url)
+})
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'));

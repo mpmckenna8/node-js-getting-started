@@ -20,10 +20,9 @@
           text-align:center;
         }
 
-        svg{
+        .maphold{
           margin-right:auto;
           margin-left:auto;
-          //vertical-align:middle;
         }
 
 
@@ -65,7 +64,9 @@ var path = d3.geo.path()
         .attr('class', 'bigtitle');
 
 // Appending the actual SVG to the body of the page w/ height width
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("body").append("div")
+      .attr("class", "maphold").style("width", width + "px").style("height", height+"px")
+      .append("svg")
         .attr("width", width)
         .attr("height", height);
 
