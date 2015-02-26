@@ -16,10 +16,12 @@ var statem = 'create table ' + state + house+ '(id varchar(200), full_name varch
     if(err){
       console.log(err);
       return err;
+    //  cb()
     }
 
+
     toex = res.rows;
-    console.log('shoulda called back!')
+    console.log('create table shoulda called back!')
     // doesn't work here      return toex
   ///  cber(err,res);
     console.log("in the res" + res);
@@ -27,8 +29,7 @@ var statem = 'create table ' + state + house+ '(id varchar(200), full_name varch
   .on('end', function(){
   //  client.end();
     cb();
-    console.log('calling shit back after making a table')
-    client.end()
+    console.log('calling shit back after making a table');
     console.log('table make over it over');
   })
 })

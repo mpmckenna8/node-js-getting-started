@@ -15,11 +15,16 @@ module.exports =  function(cber, queryS){
   var conny = pg.connect(process.env.DATABASE_URL, function(err, client, done){
 
 
+
    client.query("SELECT * FROM " + table, function(err, res){
-    // done();
+     console.log('tried a query');
+     var send = true;
+
+    //done();
       if(err){
         console.log('and an err', err);
         legis(quobs.state, quobs.house, function(datey){
+          console.log('Shouldacalled back after sun run')
           cber(err, datey);
           send = false;
         });
@@ -27,17 +32,17 @@ module.exports =  function(cber, queryS){
       }
 
       toex = res.rows;
-      var send = true;
       console.log('shoulda called back!')
 // doesn't work here      return toex
-    if(send){
-     cber(err,toex);
-   }
+  
 
       console.log("in the res" + res);
     })
     .on('end', function(){
       console.log('it over');
+      if(send){
+        cber(err,toex);
+      }
     })
   })
 

@@ -52,11 +52,14 @@ app.get('/db*', function (request, response) {
 
     if (err){
       console.log('error before serve db');
+      console.log(res.url);
 
       console.log(err);
 
+
+
         if(res.length <1) {
-          response.send('som error here nothin');
+          response.send("som error here nothin");
 
           console.log('no response')
           //throw err;
@@ -69,14 +72,28 @@ app.get('/db*', function (request, response) {
     }
   //  console.log(res);
   else{
+    console.log('sending normal res');
      response.send(res);
    }
   }
+  /*
 
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM test_table', function(err, result) {
+      done();
+      if (err)
+      { console.error(err); response.send("Error " + err); }
+      else
+      {
+        //response.send(result.rows);
+      }
+    });
+  });
+*/
 })
 
 app.get('/states.json', function(req,res){
-  res.sendFile(__dirname + '/states.json')
+  res.sendFile(__dirname + '/states.json');
 })
 
 app.get('/calAss1.json', function(req, res){
