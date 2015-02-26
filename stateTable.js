@@ -27,6 +27,7 @@ var statem = 'create table ' + state + house+ '(id varchar(200), full_name varch
   .on('end', function(){
   //  client.end();
     cb();
+    console.log('calling shit back after making a table')
     client.end()
     console.log('table make over it over');
   })
