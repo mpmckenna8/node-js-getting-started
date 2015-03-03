@@ -12,7 +12,7 @@ module.exports =  function(cber, queryS){
   var table = quobs.state + quobs.house;
 
 
-  var conny = pg.connect(process.env.DATABASE_URL, function(err, client, done){
+  pg.connect(process.env.DATABASE_URL, function(err, client, done){
 
 
 
@@ -20,28 +20,29 @@ module.exports =  function(cber, queryS){
      console.log('tried a query');
      var send = true;
 
-    //done();
+    done();
       if(err){
         console.log('and an err', err);
         legis(quobs.state, quobs.house, function(datey){
           console.log('Shouldacalled back after sun run')
           cber(err, datey);
           send = false;
+        //  done();
         });
-        return err;
+        //return err;
       }
 
-      toex = res.rows;
+      toex = res;
       console.log('shoulda called back!')
 // doesn't work here      return toex
-  
+
 
       console.log("in the res" + res);
     })
     .on('end', function(){
       console.log('it over');
       if(send){
-        cber(err,toex);
+        cber(err,toex.rows);
       }
     })
   })

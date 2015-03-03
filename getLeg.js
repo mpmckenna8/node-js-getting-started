@@ -6,13 +6,11 @@ var qs = require('querystring');
 var addtodb = require('./legdb.js');
 var maketable = require('./stateTable.js')
 
-var strstate = "ca";
-
-var house = "upper";
+ var strstate = "ca"; var house = "upper";
 
 var active = "true";
 
-
+var doerrcb = false;
 // need to replace this with my config var SUNLIGHT
 
 var key = process.env.SUNLIGHT;
@@ -40,7 +38,8 @@ console.log(rehost)
 var conString = '';
 
 var req = http.request(rehost, function(res){
-  console.log(res);
+  console.log('making my req to sunny',res);
+
 
   res.setEncoding('utf8');
   res.on('data', function(chunky){
@@ -54,13 +53,23 @@ var req = http.request(rehost, function(res){
 
   res.on('end',todb);
 }).on('error', function(e){
-  console.log('big bad error ' + e.message)
-})
+  console.log('big bad error ' + e.message);
+  var blah = [];
+  doerrcb = true;
+  cb(blah)
 
-req.end()
+}).end();
+
+
 var who;
 
 function todb(){
+
+  if(doerrcb){
+    console.log('too many cbs')
+    cb([blah]);
+  //  return [];
+  }
 
  console.log(conString);
   var fojson = JSON.parse(conString)
@@ -99,7 +108,7 @@ function todb(){
   });
   var tstate = toqs.state;
   var tchamber = toqs.chamber;
-  
+
   cb(fojson);
 
   console.log('ending length is', fojson.length);

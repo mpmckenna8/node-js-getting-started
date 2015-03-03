@@ -19,7 +19,7 @@ function cber (err, res){
   console.log(res);
 }
 
-
+console.log(process.env)
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -31,9 +31,6 @@ app.use(function(req, res, next) {
 }
   //express.static(__dirname + '/public')
   );
-
-
-
 
 
 
@@ -52,23 +49,10 @@ app.get('/db*', function (request, response) {
 
     if (err){
       console.log('error before serve db');
-      console.log(res.url);
+      console.log(res);
 
-      console.log(err);
+          response.send(res)
 
-
-
-        if(res.length <1) {
-          response.send("som error here nothin");
-
-          console.log('no response')
-          //throw err;
-          }
-
-          else{
-            response.send(res)
-
-          }
     }
   //  console.log(res);
   else{
@@ -96,8 +80,12 @@ app.get('/states.json', function(req,res){
   res.sendFile(__dirname + '/states.json');
 })
 
-app.get('/calAss1.json', function(req, res){
-  res.sendFile(__dirname + "/calAss1.json");
+app.get('/calower.json', function(req, res){
+  res.sendFile(__dirname + "/calower.json");
+})
+
+app.get('/caupper.json', function(req, res){
+  res.sendFile(__dirname + "/caupper.json");
 })
 
 app.get('/map.html', function(req, res){

@@ -70,11 +70,14 @@ var path = d3.geo.path()
         .attr("width", width)
         .attr("height", height);
 
+function makemap(){
 
+d3.json("caupper.json" // "/calAss1.json"
+    , function(cali) {
+      console.log(cali.objects);
 
-d3.json("/calAss1.json", function(cali) {
-    var neighbors = topojson.neighbors(cali.objects.assemD2011.geometries);
-    var districts = topojson.feature(cali, cali.objects.assemD2011).features;
+    var neighbors = topojson.neighbors(cali.objects.caSenDist.geometries);
+    var districts = topojson.feature(cali, cali.objects.caSenDist).features;
     console.log(neighbors);
 
         svg.selectAll(".casubun")
@@ -96,14 +99,15 @@ d3.json("/calAss1.json", function(cali) {
         });
 
       svg.append("path")
-        .datum(topojson.mesh(cali,cali.objects.assemD2011, function(a,b){
+        .datum(topojson.mesh(cali,cali.objects.caSenDist, function(a,b){
           return a;
 
         }))
         .attr("d",path)
-        .attr("class", "bords");
+        .attr("class", "bords")
+        //.attr();
 
-        d3.json('/db', function(datur){
+        d3.json('/db/?state=ca&house=upper', function(datur){
           //console.log(d)
           var dable = datur;
 
@@ -113,7 +117,7 @@ d3.json("/calAss1.json", function(cali) {
               var dnum = +d.properties.DISTRICT;
               console.log(d)
               datur.forEach(function(w, e){
-                console.log(w)
+              //  console.log(w)
                 if(w.district == dnum ){
                   console.log('a match!');
                   if(w.party === "Republican"){
@@ -141,6 +145,9 @@ d3.json("/calAss1.json", function(cali) {
 
 });
 
+}
+
+makemap();
 
       d3.select("body")
        .transition()
